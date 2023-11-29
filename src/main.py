@@ -18,4 +18,4 @@ docker_client = docker.DockerClient(base_url="unix:///var/run/docker.sock")
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)
-    uvicorn.run("main:app", port=3000, reload=True)
+    uvicorn.run("main:app", port=3000, host="0.0.0.0", reload=True)

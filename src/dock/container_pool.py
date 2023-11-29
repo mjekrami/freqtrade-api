@@ -1,6 +1,8 @@
 from docker import DockerClient
 from schema import ContainerSchema
 
+from docker.errors import NotFound
+
 
 class ContainerPool:
     def __init__(self) -> None:
@@ -10,13 +12,14 @@ class ContainerPool:
         containers = self.client.containers.list()
         res = []
         for container in containers:
-            res.append(
-                ContainerSchema(
-                    container_id=container.id,
-                    name=container.name,
-                    status=container.status,
+            if container.name != "freqtrade-api":
+                res.append(
+                    ContainerSchema(
+                        container_id=container.id,
+                        name=container.name,
+                        status=container.status,
+                    )
                 )
-            )
         return res
 
     def get_bot_by_id(self, id: str) -> ContainerSchema:
@@ -31,11 +34,20 @@ class ContainerPool:
         containers = self.client.containers.list(filters={"status": status})
         res = []
         for container in containers:
-            res.append(
-                ContainerSchema(
-                    container_id=container.id,
-                    name=container.name,
-                    status=container.status,
+            if container.name != "freqtrade-api":
+                res.append(
+                    ContainerSchema(
+                        container_id=container.id,
+                        name=container.name,
+                        status=container.status,
+                    )
                 )
-            )
         return res
+
+    def get_bot_by_name(self, name: str):
+        try:
+            container = self.client.containers.get(name)
+            container_name = container.attrs["Name"]
+            return container_name.strip("/")
+        except NotFound:
+            raise f"Container with name {name} was not found"

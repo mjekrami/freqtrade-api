@@ -1,7 +1,7 @@
 from sqlalchemy.engine import create_engine
 from sqlalchemy.orm import sessionmaker
 
-CONNECTION_STRING = "sqlite:////home/mjekrami/freqtrade-api/freqtrade-api.db"
+CONNECTION_STRING = "sqlite:///./freqtrade-api.db"
 engine = create_engine(CONNECTION_STRING, connect_args={"check_same_thread": False})
 
 Session = sessionmaker(bind=engine)
