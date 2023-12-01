@@ -43,7 +43,7 @@ class ProfitSchema(BaseModel):
     max_drawdown_start_timestamp: int
     max_drawdown_end: str
     max_drawdown_end_timestamp: int
-    trading_volume: float
+    trading_volume: Optional[float]
     bot_start_timestamp: int
     bot_start_date: str
 

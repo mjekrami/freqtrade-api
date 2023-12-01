@@ -22,7 +22,7 @@ services:
     networks:
       - dev
     volumes:
-      - /home/mjekrami/strategies/first-strategy:/freqtrade/user_data
+      - ~/strategies/first-strategy:/freqtrade/user_data
     command:
       - "trade"
       - "--logfile"
@@ -34,5 +34,5 @@ services:
       - "--strategy"
       - "SampleStrategy"
 networks:
-  dev:
+  army:
     external: true
