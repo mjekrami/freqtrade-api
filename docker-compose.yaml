@@ -1,0 +1,38 @@
+version: "3.8"
+services:
+  freqtrade-api:
+    build:
+      context: .
+    container_name: freqtrade-api
+    ports:
+      - 3000:3000
+    volumes:
+      - type: bind
+        source: ./src
+        target: /app
+
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - dev
+  sample-strategy:
+    image: freqtradeorg/freqtrade:stable
+    container_name: "sample-strategy"
+    ports:
+      - 8080:8080
+    networks:
+      - dev
+    volumes:
+      - ~/strategies/first-strategy:/freqtrade/user_data
+    command:
+      - "trade"
+      - "--logfile"
+      - "/freqtrade/user_data/logs/freqtrade.log"
+      - "--db-url"
+      - "sqlite:////freqtrade/user_data/tradesv3.sqlite"
+      - "--config"
+      - "/freqtrade/user_data/config.json"
+      - "--strategy"
+      - "SampleStrategy"
+networks:
+  army:
+    external: true
