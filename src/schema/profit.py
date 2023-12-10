@@ -50,7 +50,7 @@ class ProfitSchema(BaseModel):
     bot_start_date: str
 
     @validator("bot_start_date")
-    def humanize_bot_start_date(self, value):
+    def humanize_bot_start_date(cls, value):
         """Transforms the bot_start_date to humanize version"""
         timestamp_format = "%Y-%m-%d %H:%M:%S"
         dt = datetime.strptime(value, timestamp_format)
