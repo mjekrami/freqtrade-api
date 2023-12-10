@@ -1,5 +1,7 @@
 from typing import Optional
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
+from datetime import datetime
+from humanize import naturaltime
 
 
 class ProfitSchema(BaseModel):
@@ -46,6 +48,13 @@ class ProfitSchema(BaseModel):
     trading_volume: Optional[float]
     bot_start_timestamp: int
     bot_start_date: str
+
+    @validator("bot_start_date")
+    def humanize_bot_start_date(self, value):
+        """Transforms the bot_start_date to humanize version"""
+        timestamp_format = "%Y-%m-%d %H:%M:%S"
+        dt = datetime.strptime(value, timestamp_format)
+        return naturaltime(datetime.now() - dt)
 
 
 class BotProfitSchema(BaseModel):

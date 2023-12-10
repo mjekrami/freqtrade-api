@@ -1,8 +1,7 @@
 version: "3.8"
 services:
   freqtrade-api:
-    build:
-      context: .
+    image: freqtrade-api:0.3
     container_name: freqtrade-api
     ports:
       - 3000:3000
@@ -13,14 +12,14 @@ services:
 
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
-      - dev
+      - army
   sample-strategy:
     image: freqtradeorg/freqtrade:stable
     container_name: "sample-strategy"
     ports:
       - 8080:8080
     networks:
-      - dev
+      - army
     volumes:
       - ~/strategies/first-strategy:/freqtrade/user_data
     command:
