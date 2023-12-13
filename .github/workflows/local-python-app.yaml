@@ -15,7 +15,7 @@ jobs:
     runs-on: ["self-hosted", "local"]
     defaults:
       run:
-        working-directory: /home/mjekrami
+        working-directory: /home/mjekrami/freqtrade-api
     steps:
       - uses: actions/checkout@v3
       # - name: Set up Python 3.10
@@ -27,6 +27,7 @@ jobs:
           python3 -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
   deploy:
+    needs: build
     runs-on: ["self-hosted", "local"]
     steps:
       - name: Run freqtrade-api
