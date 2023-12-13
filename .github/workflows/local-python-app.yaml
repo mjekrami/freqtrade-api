@@ -18,14 +18,9 @@ jobs:
     runs-on: ["self-hosted", "local"]
     steps:
       - uses: actions/checkout@v3
-      # - name: Set up Python 3.10
-      #   uses: actions/setup-python@v3
-      #   with:
-      #     python-version: "3.10"
-      - name: Install dependencies
+      - name: Build Docker Image
         run: |
-          python3 -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          docker build ${GITHUB_WORKSPACE} -t freqtrade-api:${GITHUB_SHA}
   deploy:
     needs: build
     runs-on: ["self-hosted", "local"]
