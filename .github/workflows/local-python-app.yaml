@@ -27,6 +27,4 @@ jobs:
     steps:
       - name: Run freqtrade-api
         run: |
-          VERSION=${GITHUB_SHA} \ 
-          RUNNING_PORT=${RUNNING_PORT}\
-          /home/mjekrami/freqtrade-api/docker-run.sh
+          VERSION=${GITHUB_SHA} RUNNING_PORT=${RUNNING_PORT} /home/mjekrami/freqtrade-api/docker-run.sh
