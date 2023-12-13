@@ -11,7 +11,8 @@ on:
 
 permissions:
   contents: read
-
+env:
+  GITHUB_WORKSPACE: "/home/ubuntu/freqtrade-api"
 jobs:
   build:
     runs-on: self-hosted
