@@ -32,4 +32,4 @@ jobs:
     steps:
       - name: Run freqtrade-api
         run: |
-          ${RUNNING_PORT} /home/mjekrami/freqtrade-api/docker-run.sh
+          RUNNING_PORT=${RUNNING_PORT} /home/mjekrami/freqtrade-api/docker-run.sh
