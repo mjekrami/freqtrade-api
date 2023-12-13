@@ -10,6 +10,9 @@ on:
 permissions:
   contents: read
 
+env:
+  RUNNING_PORT: 3000
+
 jobs:
   build:
     runs-on: ["self-hosted", "local"]
@@ -29,5 +32,4 @@ jobs:
     steps:
       - name: Run freqtrade-api
         run: |
-          source /home/mjekrami/freqtrade-api/bin/activate
-          python3 src/main.py
+          /home/mjekrami/freqtrade-api/docker-run.sh
