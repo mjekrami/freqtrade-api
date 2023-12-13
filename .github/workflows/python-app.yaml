@@ -12,11 +12,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: [self-hosted, AWS]
-    defaults:
-      run:
-        working-directory: /home/ubuntu/freqtrade-api
-
+    runs-on: [self-hosted]
     steps:
       - uses: actions/checkout@v3
       - name: Set up Python 3.10
