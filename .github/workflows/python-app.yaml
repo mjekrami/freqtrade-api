@@ -11,11 +11,13 @@ on:
 
 permissions:
   contents: read
-env:
-  GITHUB_WORKSPACE: "/home/ubuntu/freqtrade-api"
+
 jobs:
   build:
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: /home/ubuntu/freqtrade-api
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +28,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       - name: Lint with flake8
         run: |
