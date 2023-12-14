@@ -103,9 +103,9 @@ def get_profit(
 
 
 @Trades.get("/performance")
-def get_performance(bot_name: str | None = None):
-    if bot_name:
-        bot = container_pool.get_bot_by_name(bot_name)
+def get_performance(strat: str | None = None):
+    if strat:
+        bot = container_pool.get_bot_by_name(strat)
         res = re.get(f"http://{bot}:8080/api/v1/performance", auth=BASIC_AUTH)
         performance = res.json()
         perf_result = []
