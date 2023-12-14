@@ -12,7 +12,10 @@ from schema import (
     BotTradesSchema,
     TradeSchema,
     BotProfitSchema,
+    BotPerformanceSchema,
+    PerformanceSchema,
 )
+
 
 Trades = APIRouter(prefix="/trades", tags=["trades"])
 BASIC_AUTH = HTTPBasicAuth("mjekrami", "mamali75")
@@ -97,3 +100,27 @@ def get_profit(
         return result
     except ConnectionError or ConnectTimeout:
         raise HTTPException(500, "could not connect")
+
+
+@Trades.get("/performance")
+def get_performance(bot_name: str | None = None):
+    if bot_name:
+        bot = container_pool.get_bot_by_name(bot_name)
+        res = re.get(f"http://{bot}:8080/api/v1/performance", auth=BASIC_AUTH)
+        performance = res.json()
+        perf_result = []
+        for perf in performance:
+            perf = PerformanceSchema(**perf)
+            perf_result.append(perf)
+        return BotPerformanceSchema(bot_name=bot, performance=perf_result)
+
+    bots = container_pool.get_running_bots()
+    for bot in bots:
+        res = re.get(f"http://{bot.name}:8080/api/v1/performance", auth=BASIC_AUTH)
+        performances = res.json()
+        perf_result = []
+        for perf in performances:
+            perf = PerformanceSchema(**perf)
+            perf_result.append(perf)
+        res = BotPerformanceSchema(bot_name=bot.name, performance=perf_result)
+        return res
