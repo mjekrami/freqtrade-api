@@ -108,19 +108,23 @@ def get_performance(strat: str | None = None):
         bot = container_pool.get_bot_by_name(strat)
         res = re.get(f"http://{bot}:8080/api/v1/performance", auth=BASIC_AUTH)
         performance = res.json()
-        perf_result = []
+        bot_perf_result = []
         for perf in performance:
             perf = PerformanceSchema(**perf)
-            perf_result.append(perf)
-        return BotPerformanceSchema(bot_name=bot, performance=perf_result)
+            bot_perf_result.append(perf)
+        return BotPerformanceSchema(bot_name=bot, performance=bot_perf_result)
 
     bots = container_pool.get_running_bots()
-    perf_result = []
+    all_bots_perf_result = []
     for bot in bots:
+        bot_perf_result = []
         res = re.get(f"http://{bot.name}:8080/api/v1/performance", auth=BASIC_AUTH)
         performances = res.json()
         for perf in performances:
             perf = PerformanceSchema(**perf)
-        res = BotPerformanceSchema(bot_name=bot.name, performance=perf_result)
-        perf_result.append(res)
-    return res
+            bot_perf_result.append(perf)
+        bot_perf_schema = BotPerformanceSchema(
+            bot_name=bot.name, performance=bot_perf_result
+        )
+        all_bots_perf_result.append(bot_perf_schema)
+    return all_bots_perf_result
