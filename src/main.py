@@ -1,6 +1,6 @@
 import uvicorn
-import requests as re
 import docker
+import os
 
 from routes import Bots, Trades, Stats
 from models import Base
@@ -10,6 +10,7 @@ from requests.auth import HTTPBasicAuth
 from fastapi import FastAPI, File
 from fastapi.middleware.cors import CORSMiddleware
 
+ENV = os.getenv("ENVIRONMENT", "dev")
 BASIC_AUTH = HTTPBasicAuth("mjekrami", "mamali75")
 origins = ["http://localhost:3005"]
 
@@ -24,4 +25,7 @@ docker_client = docker.DockerClient(base_url="unix:///var/run/docker.sock")
 
 if __name__ == "__main__":
     Base.metadata.create_all(engine)
-    uvicorn.run("main:app", port=3000, host="0.0.0.0", reload=True)
+    if ENV == "dev":
+        uvicorn.run("main:app", port=3000, host="0.0.0.0", reload=True)
+    elif ENV == "prod":
+        uvicorn.run("main:app", port=3000, host="0.0.0.0")
