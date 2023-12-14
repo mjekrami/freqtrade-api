@@ -1,0 +1,14 @@
+name: Python Dev Branches
+
+on:
+  push:
+    branches: ["dev/**"]
+
+jobs:
+  pull-changes:
+    runs-on: ["self-hosted", "test"]
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Pull Changes
+        run: git pull origin ${{ github.ref }}
