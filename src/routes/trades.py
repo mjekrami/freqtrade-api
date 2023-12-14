@@ -122,5 +122,5 @@ def get_performance(strat: str | None = None):
         for perf in performances:
             perf = PerformanceSchema(**perf)
             perf_result.append(perf)
-        res = BotPerformanceSchema(bot_name=bot.name, performance=perf_result)
-        return res
+    res = BotPerformanceSchema(bot_name=bot.name, performance=perf_result)
+    return res
